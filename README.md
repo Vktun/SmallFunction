@@ -1,0 +1,2 @@
+# SmallFunction
+my small function
