@@ -1,0 +1,11 @@
+D:\project\myproject\SmallFunction\SmallFunction\bin\Debug\netcoreapp2.0\SmallFunction.deps.json
+D:\project\myproject\SmallFunction\SmallFunction\bin\Debug\netcoreapp2.0\SmallFunction.runtimeconfig.json
+D:\project\myproject\SmallFunction\SmallFunction\bin\Debug\netcoreapp2.0\SmallFunction.runtimeconfig.dev.json
+D:\project\myproject\SmallFunction\SmallFunction\bin\Debug\netcoreapp2.0\SmallFunction.dll
+D:\project\myproject\SmallFunction\SmallFunction\bin\Debug\netcoreapp2.0\SmallFunction.pdb
+D:\project\myproject\SmallFunction\SmallFunction\obj\Debug\netcoreapp2.0\SmallFunction.csprojResolveAssemblyReference.cache
+D:\project\myproject\SmallFunction\SmallFunction\obj\Debug\netcoreapp2.0\SmallFunction.csproj.CoreCompileInputs.cache
+D:\project\myproject\SmallFunction\SmallFunction\obj\Debug\netcoreapp2.0\SmallFunction.AssemblyInfoInputs.cache
+D:\project\myproject\SmallFunction\SmallFunction\obj\Debug\netcoreapp2.0\SmallFunction.AssemblyInfo.cs
+D:\project\myproject\SmallFunction\SmallFunction\obj\Debug\netcoreapp2.0\SmallFunction.dll
+D:\project\myproject\SmallFunction\SmallFunction\obj\Debug\netcoreapp2.0\SmallFunction.pdb
