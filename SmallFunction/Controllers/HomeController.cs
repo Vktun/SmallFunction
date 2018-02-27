@@ -29,6 +29,11 @@ namespace SmallFunction.Controllers
             return View();
         }
 
+        public IActionResult Organization()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
