@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Organization";
 }
-<link href="~/lib/ztree/css/metroStyle/metroStyle.css" rel="stylesheet" />
+<link href="~/lib/ztree/css/orgnazition/metroStyle.css" rel="stylesheet" />
 <script src="~/lib/ztree/js/jquery.ztree.all.js"></script>
 <style>
     #deparment, #deparment > div {
@@ -17,6 +17,33 @@
     </div>
     <div class="col-sm-9">
 
+    </div>
+</div>
+<div id="tmpl" style="display:none">
+    <div class="form-horizontal container" style="max-width:260px;">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">Id</label>
+            <div class="col-xs-9">
+                <input type="number" class="form-control input-sm" id="Id" placeholder="id">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">名称:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control input-sm" id="nameCN" placeholder="中文">
+                <input type="text" class="form-control input-sm" id="nameEN" placeholder="English">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">图标:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control input-sm" id="icon" placeholder="图标">
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-sm btn-default" name="closePopover">取消</button>
+        <button class="btn btn-sm btn-primary" name="addData">添加</button>
     </div>
 </div>
 <script>
@@ -172,12 +199,74 @@
             return false;
         }
     };
+    var operation = {
+        addHoverDom: function (treeId, treeNode) {
+            var sObj = $("#" + treeNode.tId + "_span");
+            if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) {
+                $("#addBtn_" + treeNode.tId).show();
+                return;
+            }
+        },
+        removeHoverDom: function (treeId, treeNode) {
+            $("#addBtn_" + treeNode.tId).hide();
+        },
+        bindAddBtn: function (ztree) {
+            var treeObj = $.fn.zTree.getZTreeObj(ztree);
+            if (treeObj) {
+                treeObj.expandAll(true);
+                var treeNodes = treeObj.getNodesByFilter(function () {
+                    return true;
+                });
+                for (var i = 0, len = treeNodes.length; i < len; i++) {
+                    var tid = treeNodes[i].tId;
+                    var sObj = $("#" + tid + "_span");
+                    if ($("#addBtn_" + tid).length > 0) {
+                        return;
+                    }
+                    var addStr = "<span class='button add' name='addBtn' id='addBtn_" + tid + "'></span>";
+                    sObj.after(addStr);
+                    var btn = $("#addBtn_" + tid);
+                    if (btn) {
+                        btn.hide();
+                        btn.popover({
+                            html: true,
+                            trigger: 'manual',
+                            container: 'body',
+                            title: '添加组织单位',
+                            content: "<span name='spanaddBtn" + tid + "'></span>" + $("#tmpl").html()
+                        }).on('click', operation.registerPopoverInnerEvent);
+                    }
+                }
+            }
+        },
+        closePopover: function (currentId) {
+
+
+        },
+        registerPopoverInnerEvent: function () {
+            var _this = this;
+            $(_this).popover('show');
+            $(_this).on('shown.bs.popover', function () {
+                $(document).bind("click", function (e) {
+                    var target = $(e.target);
+                    if (target.closest(".popover").length == 0) {
+                        $(_this).popover('hide');
+                    }
+                });
+            });
+            $(this).on('hidden.bs.popover', function () {
+                $(document).unbind();
+
+            });
+        }
+    };
 
     var setting = {
         edit: {
             enable: true,
-            showRemoveBtn: false,
-            showRenameBtn: false,
+            showRemoveBtn: true,
+            showRenameBtn: true,
+            editNameSelectAll: true,
             drag: {
                 prev: MoveTest.prevTree,
                 next: MoveTest.nextTree,
@@ -185,10 +274,6 @@
             }
         },
         data: {
-            keep: {
-                parent: true,
-                leaf: true
-            },
             simpleData: {
                 enable: true
             }
@@ -200,13 +285,16 @@
             onMouseUp: MoveTest.dom2Tree,
         },
         view: {
-            selectedMulti: false
-        }
+            addHoverDom: operation.addHoverDom,
+            removeHoverDom: operation.removeHoverDom,
+            selectedMulti: false,
+            showIcon: false
+        },
     };
 
     var zNodes = [
         { id: 1, pId: 0, name: "生物" },
-        { id: 2, pId: 1, name: "植物"},
+        { id: 2, pId: 1, name: "植物" },
         { id: 3, pId: 1, name: "动物" },
         { id: 20, pId: 3, name: "大象" },
         { id: 29, pId: 3, name: "鲨鱼" },
@@ -218,7 +306,7 @@
         $.fn.zTree.init($("#treeDemo"), setting, zNodes);
         MoveTest.updateType();
         MoveTest.bindDom();
-        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-        treeObj.expandAll(true);
+        setTimeout(operation.bindAddBtn("treeDemo"), 10);
     })()
+
 </script>
